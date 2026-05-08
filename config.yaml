@@ -1,0 +1,101 @@
+# Default launcher configuration for train_json.py.
+# Keep keys in sync with CondUnet, GaussianDiffusion and Trainer constructor arguments.
+
+# Runtime mode. Use phase: train for optimization or phase: infer for checkpoint inference.
+run:
+  phase: train
+  backup_script: true
+
+# Conditional UNet architecture.
+# channel_mults controls encoder/decoder depth; attn_res enables attention at those resolutions.
+model:
+  in_channel: 3
+  channels: 3
+  out_channel: 3
+  inner_channel: 64
+  norm_groups: 32
+  channel_mults: [1, 2, 4, 8]
+  ca_num_heads: 8
+  attn_res: [16, 8]
+  res_blocks: 3
+  dropout: 0
+  with_time_emb: true
+  img_guidance: true
+  use_hdmc: false
+  self_condition: false
+  out_dim: 3
+  learned_sinusoidal_cond: false
+  random_fourier_features: false
+  image_size: 256
+
+# Diffusion process and sampling schedule.
+# sampling_timesteps < timesteps enables DDIM sampling during inference.
+diffusion:
+  image_size: 256
+  timesteps: 1000
+  sampling_timesteps: 50
+  objective: pred_v
+  beta_schedule: sigmoid
+  schedule_fn_kwargs: {}
+  ddim_sampling_eta: 0.0
+  auto_normalize: true
+  offset_noise_strength: 0.0
+  min_snr_loss_weight: false
+  min_snr_gamma: 5
+  immiscible: false
+
+# Dataset selector and path registry.
+# dataset: "" uses the default SEN-style aggregate path below.
+data:
+  dataset: "SEN12"
+  paths:
+    SEN12: ./data/SEN12
+    SAR2Opt: ./data/SAR2Opt
+
+# Output root. Training writes to output/results/<timestamp>;
+# inference writes to output/inference/<training_timestamp>/epoch-<from_checkpoint>.
+output:
+  root: output
+
+# Trainer hyperparameters and logging/evaluation cadence.
+trainer:
+  train_batch_size: 16
+  val_batch_size: 3
+  random_seed: 42
+  gradient_accumulate_every: 4
+  augment_horizontal_flip: false
+  train_lr: 0.00008
+  train_num_steps: 50000
+  ema_update_every: 10
+  ema_decay: 0.995
+  adam_betas: [0.9, 0.99]
+  save_and_sample_every: 500
+  num_samples: 3
+  amp: true
+  mixed_precision_type: fp16
+  split_batches: true
+  convert_image_to:
+  calculate_fid: false
+  inception_block_idx: 2048
+  max_grad_norm: 1.0
+  num_fid_samples: 50000
+  save_best_and_latest_only: false
+  lr_scheduler_type: cosine
+  lr_scheduler_kwargs:
+    eta_min: 0.000001
+  log_every: 20
+  loss_csv_path:
+  eval_every: 200
+  eval_subset_size: 64
+
+# Inference-only options used when run.phase is infer.
+inference:
+  # Checkpoint epoch to load for inference.
+  # 0 uses the random initial checkpoint under output/results.
+  # Change epoch number to load a specific checkpoint from training.
+  from_checkpoint: 0
+  # Optional training results folder that contains model-{from_checkpoint}.pt.
+  # Leave empty to use the newest matching checkpoint under output/results.
+  checkpoint_dir:
+  save_image: true
+  compare_with_target: true

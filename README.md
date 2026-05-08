@@ -25,6 +25,22 @@ The following figures demonstrate main experimental results
 
 The complete training and inference code, along with full experimental settings, will be released upon paper acceptance.
 
+## Sync Environment
+
+This project is based on uv, so please install uv first and then run the following command to sync the environment.
+
+1. Clone the repository and navigate to the project directory.
+
+   ```bash
+   git clone https://github.com/Mizar29/Residual-Decomposition-Generation-Strategy-for-S2O.git && cd Residual-Decomposition-Generation-Strategy-for-S2O
+   ```
+
+2. Sync the environment.
+
+   ```bash
+   uv sync
+   ```
+
 ## Acknowledgments
 
 This repository is built upon:
