@@ -2,14 +2,23 @@
 
 The official implementation of Conditional Diffusion Model with Residual Decomposition Generation Strategy for SAR to Optical Image Translation
 
-**Notice:**  
-This repository currently contains partial code and experimental result figures to demonstrate key components of our work. The complete source code will be fully released upon acceptance of our manuscript, which is currently under review/submitted.
-
-We appreciate your understanding and interest in our research.
-
 ## Abstract
 
-Synthetic aperture radar (SAR)–to–optical image translation aims to recover visually interpretable optical images from SAR images acquired under all-weather and all-day conditions, yet remains challenging due to the substantial modality gap between SAR and optical image. Existing learning-based approaches exhibit complementary limitations: GAN-based methods tend to preserve global structure but often produce over-smoothed textures and suffer from training instability, while diffusion-based models excel at detail synthesis but struggle when directly modeling the full SAR-to-optical mapping, leading to structural distortions and inefficient optimization. To address these issues, this paper proposes a two-stage SAR-to-optical translation framework based on residual decomposition and diffusion-based refinement. In the first stage, ......
+Synthetic aperture radar (SAR)-to-optical image translation aims to recover visually interpretable optical
+images from SAR images acquired under all-weather and all-day conditions, yet remains challenging due
+to the substantial modality gap between SAR and optical image. Existing learning-based approaches exhibit
+complementary limitations: GAN-based methods tend to preserve global structure but often produce over smoothed textures and suffer from training instability, while diffusion-based models excel at detail synthesis
+but struggle when directly modeling the full SAR-to-optical mapping, leading to structural distortions and
+inefficient optimization. To address these problems, this paper proposes a two-stage SAR-to-optical translation
+framework based on conditional residual diffusion refinement strategy (CRDRS). In the first stage, a conditional
+GAN generates a coarse pseudo-optical image that captures the overall scene structure, providing a stable and
+geometry-consistent prior. In the second stage, CRDRS is used to predict the residual between the pseudo optical image and the real optical target, rather than directly synthesizing the optical image. CRDRS can
+simplify the learning objective by concentrating the diffusion process on high-frequency details and localized
+discrepancies. Furthermore, a heuristic theoretical analysis is provided to show that CRDRS can reduce target
+variance and lower intrinsic denoising error compared with direct optical generation, leading to a better
+conditioned optimization problem. Experiments on two representative SAR-optical datasets demonstrate that
+the proposed method consistently improves both pixel-level and perceptual performance, while exhibiting
+enhanced robustness to degraded coarse guidance.
 
 ## Experimental Results
 
