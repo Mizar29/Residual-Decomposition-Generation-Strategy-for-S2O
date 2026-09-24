@@ -20,6 +20,14 @@ conditioned optimization problem. Experiments on two representative SAR-optical 
 the proposed method consistently improves both pixel-level and perceptual performance, while exhibiting
 enhanced robustness to degraded coarse guidance.
 
+## Method Overview
+
+![Method Overview](./Figs/Method.png)
+
+Overview of the proposed two-stage SAR-to-optical image translation framework. A conditional GAN first generates a coarse pseudo-optical image that
+preserves global structure, after which a conditional diffusion model refines the result by predicting the residual between the pseudo-optical image and the
+ground-truth optical target, yielding the final reconstructed optical image.
+
 ## Experimental Results
 
 The following figures demonstrate main experimental results
